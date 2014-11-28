@@ -6,7 +6,7 @@ class SimpleGame(object):
     def __init__(self,
                  title,
                  background_color,
-                 window_size=(560,560),
+                 window_size=(500,500),
                  fps=60):
         self.title = title
         self.window_size = window_size
@@ -60,7 +60,7 @@ class SimpleGame(object):
     def update(self):
         pass
 
-    def render(self, surface):
+    def render(self,surface):
         pass
 
     def on_key_up(self, key):
