@@ -27,10 +27,8 @@ class SimpleGame(object):
         for event in pygame.event.get():
             if event.type == QUIT:
                 self.terminate()
-            elif event.type == KEYDOWN:
-                self.on_key_down(event.key)
-            elif event.type ==KEYUP:
-                self.on_key_up(event.key)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                self.on_click(event.key)
 
     def terminate(self):
         self.is_terminated = True
@@ -63,8 +61,5 @@ class SimpleGame(object):
     def render(self,surface):
         pass
 
-    def on_key_up(self, key):
-        pass
-
-    def on_key_down(self, key):
+    def on_click(self, key):
         pass
