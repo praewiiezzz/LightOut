@@ -10,9 +10,10 @@ class Lightout(gamelib.SimpleGame):
 	GREEN = pygame.Color('green')
    	
    	def __init__(self):
-		super(Lightout, self).__init__('Light out', Lightout.BLACK)
-		self.light = Light(level = 2)
-		self.light.map_level()
+		super(Lightout, self).__init__('Light out', Lightout.WHITE)
+		self.level = 1
+		self.light = Light(level = self.level)
+		self.light.map_level(level = self.level)
 		self.mouse_position = [0,0]
 		self.is_First = self.is_clicked
 		self.Repeat = 0
@@ -29,7 +30,7 @@ class Lightout(gamelib.SimpleGame):
 			self.Repeat+=1
 			if self.Repeat == 1:
 				self.mouse_position = [self.posX,self.posY]
-				self.light.light_on_click(2,self.mouse_position)
+				self.light.light_on_click(self.level,self.mouse_position)
 				print self.mouse_position
 		else:
 			self.Repeat = 0
@@ -38,7 +39,7 @@ class Lightout(gamelib.SimpleGame):
 	#	self.score_image = self.font.render("Score = %d" % self.score, 0, Lightout.WHITE)
 
 	def render(self,surface):
-		self.light.draw(surface)
+		self.light.draw(surface,self.level)
 		#self.player.render(surface)
 		#surface.blit(self.score_image, (10,10))
 def main():
