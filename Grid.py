@@ -26,17 +26,9 @@ class Light(object):
             grid.append([])
         for column in range(size):
             grid[row].append(0) # Append a cell
-        """grid[1][3] = 1
-        #grid[0][4] = 1
-        #grid[2][2] = 1
-        grid[2][3] = 1
-        #grid[2][3] = 1
-        grid[3][1] = 1
-        grid[3][3] = 1
-        grid[4][0] = 1
-        grid[4][2] = 1
-        """
-    def light_on_click(self,level,pos):
+        
+    def light_on_click(self,level):
+            pos=[1,0]
             size = 5
             column = self.pos[0] // (width + margin)
             row = self.pos[1] // (height + margin)
@@ -66,6 +58,15 @@ class Light(object):
             grid.append([])
             for column in range(size):
                 grid[row].append(0) # Append a cell
+        grid[1][3] = 1
+        #grid[0][4] = 1
+        #grid[2][2] = 1
+        grid[2][3] = 1
+        #grid[2][3] = 1
+        grid[3][1] = 1
+        grid[3][3] = 1
+        grid[4][0] = 1
+        grid[4][2] = 1
         WHITE = pygame.Color('white')
         GREEN = pygame.Color('green')
 

@@ -30,10 +30,9 @@ class SimpleGame(object):
             if event.type == QUIT:
                 self.terminate()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                print "eiei"
-                self.is_clicked = True
-                print self.is_clicked
-                self.on_click(self.is_clicked)
+                self.pos = pygame.mouse.get_pos()
+                self.posX = self.pos[0]
+                self.posY = self.pos[1]
 
 
     def terminate(self):
@@ -61,16 +60,3 @@ class SimpleGame(object):
     def render(self,surface):
         pass
 
-    def on_click(self,click):
-        self.click = click
-        if self.click == True:
-            print "pos"
-            self.get_pos()
-            self.is_clicked = False
-            self.click == self.is_clicked
-
-    def get_pos(self):
-        self.pos = pygame.mouse.get_pos()
-        self.posX = self.pos[0]
-        self.posY = self.pos[1]
-        print ("pos",self.pos)
