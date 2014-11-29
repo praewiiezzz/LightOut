@@ -12,8 +12,10 @@ class SimpleGame(object):
         self.window_size = window_size
         self.fps = fps
         self.background_color = background_color
-
+        self.posX = 0
+        self.posY = 0
         self.is_terminated = False
+        self.is_clicked = False
 
     def __game_init(self):
         pygame.init()
@@ -28,7 +30,11 @@ class SimpleGame(object):
             if event.type == QUIT:
                 self.terminate()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                self.on_click(event.key)
+                print "eiei"
+                self.is_clicked = True
+                print self.is_clicked
+                self.on_click(self.is_clicked)
+
 
     def terminate(self):
         self.is_terminated = True
@@ -46,12 +52,6 @@ class SimpleGame(object):
 
             self.clock.tick(self.fps)
 
-    def is_key_pressed(self, key):
-        keys_pressed = pygame.key.get_pressed()
-        if key < 0 or key >= len(keys_pressed):
-            return False
-        return (keys_pressed[key])
-
     def init(self):
         self.__game_init()
 
@@ -61,5 +61,16 @@ class SimpleGame(object):
     def render(self,surface):
         pass
 
-    def on_click(self, key):
-        pass
+    def on_click(self,click):
+        self.click = click
+        if self.click == True:
+            print "pos"
+            self.get_pos()
+            self.is_clicked = False
+            self.click == self.is_clicked
+
+    def get_pos(self):
+        self.pos = pygame.mouse.get_pos()
+        self.posX = self.pos[0]
+        self.posY = self.pos[1]
+        print ("pos",self.pos)
