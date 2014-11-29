@@ -25,12 +25,11 @@ class Lightout(gamelib.SimpleGame):
 		pass
 
 	def update(self):
-		#event = pygame.event.get() # User did something	
-
-		if pygame.mouse.get_pressed() == (1,0,0):
+		if pygame.mouse.get_pressed() == (1,0,0): # detect left click
 			self.Repeat+=1
 			if self.Repeat == 1:
 				self.mouse_position = [self.posX,self.posY]
+				self.light.light_on_click(2,self.mouse_position)
 				print self.mouse_position
 		else:
 			self.Repeat = 0
