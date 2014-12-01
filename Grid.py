@@ -3,6 +3,25 @@ from pygame.locals import *
 from random import randint
 
 class Light(object):
+    WHITE = pygame.Color('white')
+    # color 1
+    HOTPINK = (255, 102, 102)
+    PINK = (255, 204, 204)
+    # color 2
+    HOTBLUE = ( 0, 204, 204)
+    BLUE = ( 153, 255, 255)
+    # color 3 
+    HOTGREEN = ( 153, 255, 0)
+    GREEN = ( 221, 255, 155)
+    # color 4
+    HOTPEACH = ( 255, 178, 102)
+    PEACH = ( 255, 153, 153)
+    # color 5
+    HOTGRAY = ( 160, 160, 160)
+    GRAY = ( 224, 224, 224)
+    # color 6
+    HOTYELLOW = ( 255, 255, 0)
+    YELLOW = ( 255, 255, 204)
 
     def __init__(self, level):
         self.level = level
@@ -16,7 +35,9 @@ class Light(object):
             self.height = [0,153,88,60]
             self.margin = 10 # This sets the margin between each cell
             self.stage = self.random_stage(level)
+            self.Color_Lightout = self.Color()
             self.grid = self.create_map(self.size[level],self.stage[level],self.width[level],self.height[level],self.margin)
+            self.count = 0 # use with function Check_win
 
     def random_stage(self,level):
         if level == 1:
@@ -40,8 +61,8 @@ class Light(object):
             stage4 = [[0,0,0,1,1,1,1],[1,0,1,0,0,0,0],[0,0,1,1,0,0,0],[0,1,0,0,0,0,0],[0,0,0,0,1,0,0],[0,0,0,0,0,0,0],[0,1,1,1,1,0,0]] 
             stage5 = [[0,0,1,0,0,0,1],[0,1,0,0,0,0,0],[0,0,0,1,0,1,0],[1,0,1,1,0,0,1],[1,0,0,1,1,1,1],[0,0,1,1,0,1,0],[1,1,1,0,0,1,0]] 
             stage = [stage1,stage2,stage3,stage4,stage5]
-
-        return stage[randint(0,4)]
+        self.call_stage = stage[randint(0,4)]
+        return self.call_stage
 
     def create_map(self,size,stage,width,height,margin):
         grid = []
@@ -70,32 +91,40 @@ class Light(object):
             grid[row][column+1] = int(not grid[row][column+1])
         if 0 <= (column-1)<self.size[level]  :
             grid[row][column-1] = int(not grid[row][column-1])
-        print("Click ", self.pos, "Grid coordinates: ",row,column)   
+        print("Click ", self.pos, "Grid coordinates: ",row,column) 
 
-        
-    def draw(self,surface,level):
+    def Color(self): 
+        Color_Lightout = [] 
+        if self.level == 1:
+            Color_Lightout = [[Light.YELLOW,Light.HOTYELLOW],[Light.GREEN,Light.HOTGREEN]]
+        elif self.level == 2:
+            Color_Lightout = [[Light.PINK,Light.HOTPINK],[Light.BLUE,Light.HOTBLUE]]
+        elif self.level == 3:
+            Color_Lightout = [[Light.PEACH,Light.HOTPEACH],[Light.GRAY,Light.HOTGRAY]]
+        return Color_Lightout[randint(0,1)]          
+
+    def draw(self,surface,level,count):
         level = self.level
-        #size = 5
-        #width = 88
-        #height = 88
-        #margin = 10 # This sets the margin between each cell
         grid = self.grid
-
-        WHITE = pygame.Color('white')
-        GREEN = pygame.Color('green')
-        RED   = ( 255,   0,   0)
-        ORANGE  = ( 255,   200,   0)
-
+        #print Color_Lightout
+        #self.Color();
         for row in range(self.size[level]):
             for column in range(self.size[level]):
-                color = ORANGE
+                color = self.Color_Lightout[0]
                 if grid[row][column] == 1:
-                    color = RED
+                    color = self.Color_Lightout[1]
                 pygame.draw.rect(surface,
                                 color,
                                 [(self.margin+self.width[level])*column+self.margin,
                                 (self.margin+self.height[level])*row+self.margin,
                                 self.width[level],
                                 self.height[level]])
+        self.count += grid[row][column]
         pygame.display.flip()
- 
+
+    def Check_win(self):
+        if self.count == 0:
+            #print "fin"
+            return True
+        return False
+        
