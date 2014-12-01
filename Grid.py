@@ -103,7 +103,8 @@ class Light(object):
             Color_Lightout = [[Light.PEACH,Light.HOTPEACH],[Light.GRAY,Light.HOTGRAY]]
         return Color_Lightout[randint(0,1)]          
 
-    def draw(self,surface,level,count):
+    def draw(self,surface,level):
+        self.count = 0
         level = self.level
         grid = self.grid
         #print Color_Lightout
@@ -119,7 +120,7 @@ class Light(object):
                                 (self.margin+self.height[level])*row+self.margin,
                                 self.width[level],
                                 self.height[level]])
-        self.count += grid[row][column]
+                self.count += grid[row][column]
         pygame.display.flip()
 
     def Check_win(self):

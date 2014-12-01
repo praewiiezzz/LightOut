@@ -35,7 +35,7 @@ class Lightout(gamelib.SimpleGame):
 			self.Repeat+=1
 			if self.Repeat == 1:
 				self.mouse_position = [self.posX,self.posY]
-				self.light.light_on_click(self.level,self.mouse_position,count)
+				self.light.light_on_click(self.level,self.mouse_position)
 				print self.mouse_position
 				
 		else:
@@ -51,8 +51,7 @@ class Lightout(gamelib.SimpleGame):
 	#	self.score_image = self.font.render("Score = %d" % self.score, 0, Lightout.WHITE)
 
 	def render(self,surface):
-		self.chk_Win = self.light.Check_win()
-		self.light.draw(surface,self.level,self.count)
+		self.light.draw(surface,self.level)
 
 		#self.player.render(surface)
 		#surface.blit(self.score_image, (10,10))
