@@ -40,11 +40,20 @@ class Lightout(gamelib.SimpleGame):
 				
 		else:
 			self.Repeat = 0
-		if self.chk_Win:
-			print "yeah"
-			self.chk_Win = False
-			self.level = 2
-			self.init()
+		if  self.chk_Win == False:
+			self.chk_Win = self.light.Check_win()
+			if self.chk_Win == True:
+				print "yeah"
+				if self.level <3:
+					self.chk_Win = False
+					self.level += 1; 
+					self.init()
+				else :
+					self.chk_Win = False
+					self.level = 1; 
+					self.init()
+					print "Complete"
+
 
 	
 	#def render_score(self):

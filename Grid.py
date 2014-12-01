@@ -25,6 +25,7 @@ class Light(object):
 
     def __init__(self, level):
         self.level = level
+        self.IsWin = False
         print "init"
 
     def map_level(self,level):
@@ -37,8 +38,6 @@ class Light(object):
             self.stage = self.random_stage(level)
             self.Color_Lightout = self.Color()
             self.grid = self.create_map(self.size[level],self.stage[level],self.width[level],self.height[level],self.margin)
-            self.count = 0 # use with function Check_win
-
     def random_stage(self,level):
         if level == 1:
             stage1 = [[1,0,1],[0,1,1],[1,0,1]]
@@ -103,12 +102,17 @@ class Light(object):
             Color_Lightout = [[Light.PEACH,Light.HOTPEACH],[Light.GRAY,Light.HOTGRAY]]
         return Color_Lightout[randint(0,1)]          
 
+    def Check_win(self):
+        if self.IsWin == True:
+            #print "fin"
+            return True
+        else :
+            return False
+    
     def draw(self,surface,level):
-        self.count = 0
+        count = 0
         level = self.level
         grid = self.grid
-        #print Color_Lightout
-        #self.Color();
         for row in range(self.size[level]):
             for column in range(self.size[level]):
                 color = self.Color_Lightout[0]
@@ -120,12 +124,11 @@ class Light(object):
                                 (self.margin+self.height[level])*row+self.margin,
                                 self.width[level],
                                 self.height[level]])
-                self.count += grid[row][column]
+                count += grid[row][column]
+        if (count == 0) :
+            self.IsWin = True
+
         pygame.display.flip()
 
-    def Check_win(self):
-        if self.count == 0:
-            #print "fin"
-            return True
-        return False
+
         
