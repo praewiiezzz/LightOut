@@ -15,7 +15,7 @@ class Light(object):
     GREEN = ( 221, 255, 155)
     # color 4
     HOTPEACH = ( 255, 178, 102)
-    PEACH = ( 255, 153, 153)
+    PEACH = ( 255, 229, 204)
     # color 5
     HOTGRAY = ( 160, 160, 160)
     GRAY = ( 224, 224, 224)
