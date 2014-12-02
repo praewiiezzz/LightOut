@@ -4,6 +4,7 @@ from pygame.locals import *
 import gamelib
 from Grid import *
 
+
 class Lightout(gamelib.SimpleGame):
 	BLACK = pygame.Color('black')
 	WHITE = pygame.Color('white')
@@ -13,8 +14,9 @@ class Lightout(gamelib.SimpleGame):
 		super(Lightout, self).__init__('Light out', Lightout.WHITE)
 		self.level = 1
 		self.chk_Win = False 
-
-
+		self.is_Start = True
+		self.image = Image()
+		self.IsClear_Stage = False
 
 
 	def init(self):
@@ -25,45 +27,55 @@ class Lightout(gamelib.SimpleGame):
 		self.is_First = self.is_clicked
 		self.Repeat = 0
 		self.count = 0
-		#self.render_score()
-	def mouse(self):
-		pass
 
 	def update(self):
-
+	
 		if pygame.mouse.get_pressed() == (1,0,0): # detect left click
-			self.Repeat+=1
-			if self.Repeat == 1:
+			self.On_clicked()
+			#if self.level == 4 :
+			#	pygame.time.wait(2000)
+			#	self.terminate()
+		else:
+			self.Repeat = 0
+			self.Check_pass_stage()		
+
+
+	
+	def On_clicked(self):
+		self.Repeat+=1
+		if self.Repeat == 1 :
+			if self.is_Start == False and self.IsClear_Stage == False:
 				self.mouse_position = [self.posX,self.posY]
 				self.light.light_on_click(self.level,self.mouse_position)
 				print self.mouse_position
-				
-		else:
-			self.Repeat = 0
+			elif self.is_Start == False and self.IsClear_Stage == True:
+				self.IsClear_Stage = False
+			self.is_Start = False
+
+	def Check_pass_stage(self):
 		if  self.chk_Win == False:
 			self.chk_Win = self.light.Check_win()
 			if self.chk_Win == True:
 				print "yeah"
+				self.IsClear_Stage = True
 				if self.level <3:
 					self.chk_Win = False
+					pygame.time.wait(2000)
 					self.level += 1; 
 					self.init()
 				else :
-					self.chk_Win = False
-					self.level = 1; 
-					self.init()
-					print "Complete"
-
-
-	
-	#def render_score(self):
-	#	self.score_image = self.font.render("Score = %d" % self.score, 0, Lightout.WHITE)
+					self.level = 4
+					pygame.time.wait(2000)
+					self.terminate()
 
 	def render(self,surface):
-		self.light.draw(surface,self.level)
+		if self.is_Start:
+			self.image.render(surface)
+		elif self.is_Start == False and self.IsClear_Stage == False:
+			self.light.draw(surface,self.level)
+		elif self.is_Start == False and self.IsClear_Stage == True:
+			self.image.render_clear_stage(surface,self.level)
 
-		#self.player.render(surface)
-		#surface.blit(self.score_image, (10,10))
 def main():
 	game = Lightout()
 	game.run()

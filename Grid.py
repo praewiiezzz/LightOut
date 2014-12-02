@@ -21,7 +21,7 @@ class Light(object):
     GRAY = ( 224, 224, 224)
     # color 6
     HOTYELLOW = ( 255, 255, 0)
-    YELLOW = ( 255, 255, 204)
+    YELLOW = ( 255, 255, 153)
 
     def __init__(self, level):
         self.level = level
@@ -66,7 +66,6 @@ class Light(object):
     def create_map(self,size,stage,width,height,margin):
         grid = []
         stage = self.stage   
-        #size = 5
         for row in range(size):
             grid.append([])
             for column in range(size):
@@ -76,7 +75,6 @@ class Light(object):
         return grid
         
     def light_on_click(self,level,pos):
-        print self.size[level]
         grid = self.grid
         self.pos = pos
         column = self.pos[0] //(self.width[level] + self.margin)
@@ -89,8 +87,7 @@ class Light(object):
         if 0 <= (column+1)<self.size[level]  :
             grid[row][column+1] = int(not grid[row][column+1])
         if 0 <= (column-1)<self.size[level]  :
-            grid[row][column-1] = int(not grid[row][column-1])
-        print("Click ", self.pos, "Grid coordinates: ",row,column) 
+            grid[row][column-1] = int(not grid[row][column-1]) 
 
     def Color(self): 
         Color_Lightout = [] 
@@ -128,7 +125,16 @@ class Light(object):
         if (count == 0) :
             self.IsWin = True
 
-        pygame.display.flip()
+class Image(object):
+    def __init__(self):
+        self.intro_pic = "res/intro.jpg"
+        self.img_clear_stage = [0,"res/1.jpg","res/2.jpg","res/3.jpg"]
 
+    def render(self,surface):
+        self.pic = pygame.image.load(self.intro_pic)
+        surface.blit(self.pic,(0,0))
 
+    def render_clear_stage(self,surface,level):
+        self.pic = pygame.image.load(self.img_clear_stage[level-1])
+        surface.blit(self.pic,(0,0))
         
