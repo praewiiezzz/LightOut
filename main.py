@@ -17,7 +17,7 @@ class Lightout(gamelib.SimpleGame):
 		self.is_Start = True
 		self.image = Image()
 		self.IsClear_Stage = False
-
+		self.Is_Called_HowToPlay = False
 
 	def init(self):
 		super(Lightout, self).init()
@@ -29,17 +29,16 @@ class Lightout(gamelib.SimpleGame):
 		self.count = 0
 
 	def update(self):
-	
-		if pygame.mouse.get_pressed() == (1,0,0): # detect left click
+		if pygame.mouse.get_pressed() == (1,0,0) and self.Is_Called_HowToPlay == False: # detect left click and check call HowToPlay
 			self.On_clicked()
-			#if self.level == 4 :
-			#	pygame.time.wait(2000)
-			#	self.terminate()
+			pygame.time.wait(2000)
+			self.Is_Called_HowToPlay = True 
+		elif pygame.mouse.get_pressed() == (1,0,0) : # detect left click
+			self.On_clicked()
+			self.is_Start = False
 		else:
 			self.Repeat = 0
-			self.Check_pass_stage()		
-
-
+			self.Check_pass_Level()		
 	
 	def On_clicked(self):
 		self.Repeat+=1
@@ -47,30 +46,31 @@ class Lightout(gamelib.SimpleGame):
 			if self.is_Start == False and self.IsClear_Stage == False:
 				self.mouse_position = [self.posX,self.posY]
 				self.light.light_on_click(self.level,self.mouse_position)
-				print self.mouse_position
+				#print self.mouse_position
 			elif self.is_Start == False and self.IsClear_Stage == True:
 				self.IsClear_Stage = False
-			self.is_Start = False
 
-	def Check_pass_stage(self):
+	def Check_pass_Level(self):
 		if  self.chk_Win == False:
 			self.chk_Win = self.light.Check_win()
 			if self.chk_Win == True:
-				print "yeah"
 				self.IsClear_Stage = True
-				if self.level <3:
-					self.chk_Win = False
-					pygame.time.wait(2000)
-					self.level += 1; 
-					self.init()
-				else :
-					self.level = 4
-					pygame.time.wait(2000)
-					self.terminate()
+				self.Call_NextLevel()
+
+	def Call_NextLevel(self) :
+		if self.level <3:
+			self.chk_Win = False
+			pygame.time.wait(2000)
+			self.level += 1; 
+			self.init()
+		else :
+			self.level = 4
+			pygame.time.wait(2000)
+			self.terminate()
 
 	def render(self,surface):
 		if self.is_Start:
-			self.image.render(surface)
+			self.image.render(surface,self.Is_Called_HowToPlay)
 		elif self.is_Start == False and self.IsClear_Stage == False:
 			self.light.draw(surface,self.level)
 		elif self.is_Start == False and self.IsClear_Stage == True:
